@@ -1,0 +1,30 @@
+{
+  "name": "gulp-requirejs-rely",
+  "version": "1.0.0",
+  "description": "a gulp plugin for parse the dependence relation in requirejs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjuking/gulp-requirejs-rely.git"
+  },
+  "keywords": [
+    "gulp",
+    "requirejs",
+    "dependence",
+    "rely"
+  ],
+  "author": "tjuking",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjuking/gulp-requirejs-rely/issues"
+  },
+  "homepage": "https://github.com/tjuking/gulp-requirejs-rely#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "run-sequence": "^1.2.2",
+    "through2": "^2.0.3"
+  }
+}
