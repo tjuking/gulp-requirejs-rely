@@ -8,22 +8,26 @@ gulp插件——requirejs依赖关系的解析编译
 
 以下为目录结构示例：
 
--- client
----- static
------- page
--------- index
----------- index.js (依赖log.js、util.js、dialog.js)
------- base
--------- js
----------- require.js (无依赖)
----------- jquery.js (无依赖)
----- widget
------- log
--------- log.js (无依赖)
------- util
--------- util.js (依赖log.js)
------- dialog
--------- dialog.js (依赖util.js)
+```
+
+    -- client
+    ---- static
+    ------ page
+    -------- index
+    ---------- index.js (依赖log.js、util.js、dialog.js)
+    ------ base
+    -------- js
+    ---------- require.js (无依赖)
+    ---------- jquery.js (无依赖)
+    ---- widget
+    ------ log
+    -------- log.js (无依赖)
+    ------ util
+    -------- util.js (依赖log.js)
+    ------ dialog
+    -------- dialog.js (依赖util.js)
+    
+```
 
 gulpfile.js中的代码处理：
 
