@@ -1,6 +1,6 @@
 # gulp-requirejs-rely
 
-gulp插件——requirejs依赖关系的解析编译
+gulp插件 —— requirejs依赖关系的解析编译
 
 如果脚本文件有添加md戳，直接编译会导致引用失败，因此可以通过引入gulp-requirejs-rely插件来完成解析脚本的依赖关系，并实现分步编译。
 
