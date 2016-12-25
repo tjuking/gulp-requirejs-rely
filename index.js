@@ -1,19 +1,10 @@
-var gulp = require("gulp");
-var runSequence = require('run-sequence');
 var through2 = require("through2");
 var path = require("path");
 
-function RequireJsRely(options) {
-    options = options || {};
-    this.prefixTaskName = "requireJsRely"; //内部的taskName标识
-    this.taskName = options.taskName || "widgetScript"; //解析完成后需要执行的任务，也可以作为实例的标识
-    this.source = options.source || ["/client/widget/**/**.js"];
+function RequireJsRely() {
     this.length = 0;
     this.map = {};
     this.array = [];
-    this.callback = options.callback || function (array) { //解析完成需要执行的回调
-        //console.log(array)
-    };
 }
 
 //收集
@@ -85,34 +76,6 @@ RequireJsRely.prototype.analysis = function () {
         }
         loopCount++;
     }
-};
-
-//获取外部可调用的taskName
-RequireJsRely.prototype.getTaskName = function (isPrivate) {
-    return (isPrivate ? "_" : "") + this.prefixTaskName + "_" + this.taskName;
-};
-
-//初始化函数
-RequireJsRely.prototype.init = function () {
-    var _this = this;
-
-    //解析js的依赖关系
-    gulp.task(_this.getTaskName(true), function () {
-        return gulp.src(_this.source)
-            .pipe(_this.collect())
-            .on("end", function () {
-                _this.analysis();
-                _this.callback.call(_this, _this.array);
-            });
-    });
-
-    //执行传入的task
-    gulp.task(_this.getTaskName(), [_this.getTaskName(true)], function (cb) {
-        runSequence(
-            [_this.taskName],
-            cb
-        );
-    });
 };
 
 module.exports = RequireJsRely;

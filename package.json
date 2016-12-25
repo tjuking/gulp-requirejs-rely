@@ -1,6 +1,6 @@
 {
   "name": "gulp-requirejs-rely",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "a gulp plugin for parse the dependence relation in requirejs.",
   "main": "index.js",
   "scripts": {
@@ -16,15 +16,21 @@
     "dependence",
     "rely"
   ],
-  "author": "tjuking",
+  "author": {
+    "name": "tjuking"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tjuking/gulp-requirejs-rely/issues"
   },
   "homepage": "https://github.com/tjuking/gulp-requirejs-rely#readme",
   "dependencies": {
-    "gulp": "^3.9.1",
-    "run-sequence": "^1.2.2",
     "through2": "^2.0.3"
-  }
+  },
+  "readme": "# gulp-requirejs-rely\n\ngulp插件——requirejs依赖关系的解析编译\n\n###使用示例\n\n```javascript\n    \n    var gulp = require(\"gulp\");\n    var runSequence = require(\"run-sequence\");\n    var RequireJsRely = require(\"gulp-requirejs-rely\");\n    \n    var widgetJsRely = new RequireJsRely({\n        taskName: \"widgetScript\",\n        source: \"client/widget/**/**.js\",\n        callback: function (dependenceArray) {\n            //console.log(dependenceArray);\n            var taskArray = [];\n            for (var i = 0; i < dependenceArray.length; i++) {\n                gulp.task(\"widgetScript\" + i, function () {\n                    return gulp.src(getRelySource(dependenceArray[i]))\n                        .pipe(...);\n                });\n                taskArray.push([\"widgetScript\" + i]);\n            }\n            gulp.task(\"widgetScript\", function (cb) {\n                taskArray.push(cb);\n                runSequence.apply(undefined, taskArray);\n            });\n    \n            function getRelySource(sourceArray) {\n                var result = [];\n                for (var i = 0; i < sourceArray.length; i++) {\n                    result.push(\"client/widget/**/\" + sourceArray[i] + \".js\");\n                }\n                return result;\n            }\n        }\n    });\n    widgetJsRely.init();\n    \n    gulp(\"script\", function (cb) {\n        runSequence(\n            [\"baseScript\"],\n            [widgetJsRely.getTaskName()], //解析完widgetScript的依赖关系后，然后再运行widgetScript的任务\n            [\"pageScript\"],\n            cb\n        );\n    });\n    \n```\n",
+  "readmeFilename": "README.md",
+  "gitHead": "ee69e8fbdf1c29c39dd947d0480af0a22d54838d",
+  "_id": "gulp-requirejs-rely@1.0.0",
+  "_shasum": "beb8b6b343b9c22962de53dc172270b4fdcfb937",
+  "_from": "gulp-requirejs-rely@>=1.0.0 <2.0.0"
 }
