@@ -1,6 +1,6 @@
 {
   "name": "gulp-requirejs-rely",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "a gulp plugin for parse the dependence relation in requirejs.",
   "main": "index.js",
   "scripts": {
