@@ -1,6 +1,8 @@
 var through2 = require("through2");
 var path = require("path");
 
+var cwd = process.cwd(); //项目根路径
+
 function RequireJsRely() {
     this.length = 0;
     this.map = {};
@@ -17,9 +19,8 @@ RequireJsRely.prototype.collect = function () {
         }
         var fileStr = file.contents.toString(enc);
         var filePath = file.path;
-        var ext = path.extname(filePath);
-        var basename = path.basename(filePath, ext);
-        _this.map[basename] = {
+        var relativePath = filePath.substring(cwd.length);
+        _this.map[relativePath] = {
             analysis: false,
             dependence: []
         };
@@ -31,7 +32,7 @@ RequireJsRely.prototype.collect = function () {
                 for (var i = 0; i < relyArr.length; i++) {
                     if (relyArr[i]) {
                         relyArr[i] = relyArr[i].replace(/'|"/g, "");
-                        _this.map[basename].dependence.push(path.basename(relyArr[i], path.extname(relyArr[i])));
+                        _this.map[relativePath].dependence.push(getPathToClient(relyArr[i], filePath));
                     }
                 }
             }
@@ -77,5 +78,19 @@ RequireJsRely.prototype.analysis = function () {
         loopCount++;
     }
 };
+
+//文件定位到编译目录下的路径
+function getPathToClient(thePath, filePath) {
+    if (isRelativePath(thePath)) {
+        thePath = path.resolve(path.dirname(filePath), thePath);
+        thePath = thePath.substring(cwd.length);
+    }
+    return thePath
+}
+
+//判断是否是相对路径
+function isRelativePath(thePath) {
+    return !(!thePath || path.isAbsolute(thePath) || thePath.indexOf("http://") == 0 || thePath.indexOf("https://") == 0 || thePath.indexOf("<") == 0);
+}
 
 module.exports = RequireJsRely;

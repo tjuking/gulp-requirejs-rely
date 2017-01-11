@@ -44,12 +44,12 @@ gulpfile.js中的代码处理：
             .pipe(jsRely.collect())
             /* 将生成依赖关系表jsRelay.map
              {
-                 "index": ["log", "util", "dialog"],
-                 "require": [],
-                 "jquery": [],
-                 "log": []
-                 "util": ["log"]
-                 "dialog": ["util"]
+                 "/client/static/index/index.js": ["/client/widget/log/log.js", "/client/widget/util/util.js", "/client/widget/dialog/dialog.js"],
+                 "/client/static/base/js/require.js": [],
+                 "/client/static/base/js/jquery.js": [],
+                 "/client/widget/log/log.js": []
+                 "/client/widget/util/util.js": ["/client/widget/log/log.js"]
+                 "/client/widget/dialog/dialog.js": ["/client/widget/util/util.js"]
              }
              */
             .on("end", function () {
@@ -59,10 +59,10 @@ gulpfile.js中的代码处理：
                 jsRely.analysis();
                 /* 将生成依赖层次关系jsRelay.array
                  [
-                     ["require", "jquery", "log"],
-                     ["util"],
-                     ["dialog"],
-                     ["index"]
+                     ["/client/static/base/js/require.js", "/client/static/base/js/jquery.js", "/client/widget/log/log.js"],
+                     ["/client/widget/util/util.js"],
+                     ["/client/widget/dialog/dialog.js"],
+                     ["/client/static/index/index.js"]
                  ]
                  */
                 dependenceArray = jsRely.array;
@@ -81,7 +81,7 @@ gulpfile.js中的代码处理：
                 function getRelySource(sourceArray) {
                     var result = [];
                     for (var i = 0; i < sourceArray.length; i++) {
-                        result.push("client/**/" + sourceArray[i] + ".js");
+                        result.push(sourceArray[i].substring(1));
                     }
                     return result;
                 }
