@@ -25,10 +25,11 @@ RequireJsRely.prototype.collect = function () {
             dependence: []
         };
         _this.length++;
-        fileStr.replace(/\b(define|require)\s*\(\s*\[([^\]]+)\]/g, function (matched, $1, $2) {
+        fileStr.replace(/(\b(define|require)\s*\(\s*\[([^\]]+)\])|(__inline\(([^\)]+)\))/g, function (matched, $1, $2, $3, $4, $5) {
             var relyArr;
-            if ($2) {
-                relyArr = $2.split(/\s+|,/);
+            var matchedDep = $3 || $5; //$3是define|require里的依赖，$5是__inline里的依赖
+            if (matchedDep) {
+                relyArr = (matchedDep).split(/\s+|,/);
                 for (var i = 0; i < relyArr.length; i++) {
                     if (relyArr[i]) {
                         relyArr[i] = relyArr[i].replace(/'|"/g, "");
